@@ -15,14 +15,24 @@ const history = {
 };
 
 // 設定
-function setMatch(num) {
+function setMatch(num, btn) {
     maxRounds = num;
+
+    clearSelection("#title-screen button");
+
+    btn.classList.add("selected");
+
     document.getElementById("status").textContent =
         `勝負回数を ${num} 回に設定`;
 }
 
-function setDifficulty(level) {
+function setDifficulty(level, btn) {
     difficulty = level;
+
+    clearSelection("#title-screen button");
+
+    btn.classList.add("selected");
+
     document.getElementById("status").textContent =
         `難易度を ${level} に設定`;
 }
@@ -141,4 +151,10 @@ function endGame() {
 
     document.getElementById("summary").textContent =
         `あなた:${wins}勝 / AI:${losses}勝`;
+}
+
+function clearSelection(className) {
+    document.querySelectorAll(className).forEach(btn => {
+        btn.classList.remove("selected");
+    });
 }

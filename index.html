@@ -15,14 +15,14 @@
         <h1>🤖 AIじゃんけんバトル</h1>
 
         <h3>回数選択</h3>
-        <button onclick="setMatch(3)">3回勝負</button>
-        <button onclick="setMatch(5)">5回勝負</button>
-        <button onclick="setMatch(10)">10回勝負</button>
+        <button onclick="setMatch(3, this)">3回勝負</button>
+        <button onclick="setMatch(5, this)">5回勝負</button>
+        <button onclick="setMatch(10, this)">10回勝負</button>
 
         <h3>難易度</h3>
-        <button onclick="setDifficulty('easy')">Easy</button>
-        <button onclick="setDifficulty('normal')">Normal</button>
-        <button onclick="setDifficulty('hard')">Hard</button>
+        <button onclick="setDifficulty('easy', this)">Easy</button>
+        <button onclick="setDifficulty('normal', this)">Normal</button>
+        <button onclick="setDifficulty('hard', this)">Hard</button>
 
         <br><br>
         <button class="start-btn" onclick="startGame()">▶ スタート</button>

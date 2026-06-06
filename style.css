@@ -1,6 +1,8 @@
 body {
+    margin: 0;
     font-family: sans-serif;
     background: linear-gradient(135deg, #667eea, #764ba2);
+    min-height: 100vh;
     color: white;
     text-align: center;
 }
@@ -45,4 +47,10 @@ button:hover {
     color: yellow;
     font-weight: bold;
     margin: 10px 0;
+}
+
+.selected {
+    border: 3px solid yellow;
+    box-shadow: 0 0 15px yellow;
+    transform: scale(1.05);
 }
