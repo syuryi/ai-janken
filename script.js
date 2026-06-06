@@ -18,23 +18,21 @@ const history = {
 function setMatch(num, btn) {
     maxRounds = num;
 
-    clearSelection("#title-screen button");
-
+    clearSelection("#title-screen .match-btn");
     btn.classList.add("selected");
 
     document.getElementById("status").textContent =
-        `勝負回数を ${num} 回に設定`;
+        `勝負回数：${num}`;
 }
 
 function setDifficulty(level, btn) {
     difficulty = level;
 
-    clearSelection("#title-screen button");
-
+    clearSelection("#title-screen .diff-btn");
     btn.classList.add("selected");
 
     document.getElementById("status").textContent =
-        `難易度を ${level} に設定`;
+        `難易度：${level}`;
 }
 
 // ゲーム開始
@@ -153,8 +151,8 @@ function endGame() {
         `あなた:${wins}勝 / AI:${losses}勝`;
 }
 
-function clearSelection(className) {
-    document.querySelectorAll(className).forEach(btn => {
+function clearSelection(selector) {
+    document.querySelectorAll(selector).forEach(btn => {
         btn.classList.remove("selected");
     });
 }
