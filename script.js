@@ -1,85 +1,141 @@
-const hands = ["グー", "チョキ", "パー"];
+let maxRounds = 5;
+let currentRound = 0;
 
 let wins = 0;
 let losses = 0;
-let draws = 0;
 
-// AI学習データ
+let difficulty = "normal";
+
+const hands = ["グー", "チョキ", "パー"];
+
 const history = {
     グー: 0,
     チョキ: 0,
     パー: 0
 };
 
+// 設定
+function setMatch(num) {
+    maxRounds = num;
+    alert(num + "回勝負に設定");
+}
+
+function setDifficulty(level) {
+    difficulty = level;
+    alert("難易度: " + level);
+}
+
+// ゲーム開始
+function startGame() {
+    document.getElementById("title-screen").classList.remove("active");
+    document.getElementById("game-screen").classList.add("active");
+    updateUI();
+}
+
+// AIロジック
 function getAIHand() {
 
-    const total =
-        history["グー"] +
-        history["チョキ"] +
-        history["パー"];
-
-    // 最初の数回はランダム
-    if (total < 3) {
-        return hands[Math.floor(Math.random() * 3)];
-    }
+    const total = history.グー + history.チョキ + history.パー;
 
     let predicted = "グー";
 
-    if (history["チョキ"] > history[predicted]) {
-        predicted = "チョキ";
+    if (history.チョキ > history[predicted]) predicted = "チョキ";
+    if (history.パー > history[predicted]) predicted = "パー";
+
+    // 難易度
+    if (difficulty === "easy") {
+        return hands[Math.floor(Math.random() * 3)];
     }
 
-    if (history["パー"] > history[predicted]) {
-        predicted = "パー";
+    if (difficulty === "normal") {
+        return Math.random() < 0.7 ? counter(predicted) : randomHand();
     }
 
-    // 予測した手に勝つ手を出す
-    if (predicted === "グー") return "パー";
-    if (predicted === "チョキ") return "グー";
+    return counter(predicted); // hard
+}
+
+function counter(hand) {
+    if (hand === "グー") return "パー";
+    if (hand === "チョキ") return "グー";
     return "チョキ";
 }
 
-function play(playerHand) {
+function randomHand() {
+    return hands[Math.floor(Math.random() * 3)];
+}
 
-    history[playerHand]++;
+// プレイ
+function play(player) {
 
-    const aiHand = getAIHand();
+    if (currentRound >= maxRounds) return;
 
-    document.getElementById("player-hand").textContent = playerHand;
-    document.getElementById("ai-hand").textContent = aiHand;
+    history[player]++;
+
+    const ai = getAIHand();
 
     let result = "";
 
-    if (playerHand === aiHand) {
-        result = "引き分け！";
-        draws++;
+    if (player === ai) {
+        result = "引き分け";
     } else if (
-        (playerHand === "グー" && aiHand === "チョキ") ||
-        (playerHand === "チョキ" && aiHand === "パー") ||
-        (playerHand === "パー" && aiHand === "グー")
+        (player === "グー" && ai === "チョキ") ||
+        (player === "チョキ" && ai === "パー") ||
+        (player === "パー" && ai === "グー")
     ) {
-        result = "あなたの勝ち！";
+        result = "勝ち";
         wins++;
     } else {
-        result = "AIの勝ち！";
+        result = "負け";
         losses++;
     }
 
-    document.getElementById("result").textContent = result;
+    currentRound++;
+
+    document.getElementById("result").textContent =
+        `あなた:${player} / AI:${ai} → ${result}`;
+
+    updateUI();
+
+    if (currentRound >= maxRounds) {
+        endGame();
+    }
+}
+
+// UI更新
+function updateUI() {
+
+    document.getElementById("round-text").textContent =
+        `${currentRound} / ${maxRounds}`;
 
     document.getElementById("wins").textContent = wins;
     document.getElementById("losses").textContent = losses;
-    document.getElementById("draws").textContent = draws;
 
-    const comments = [
-        "その手、読めてるぞ🤖",
-        "学習データ更新完了。",
-        "またその手？覚えたよ。",
-        "ふむふむ、そのクセね。",
-        "AIは進化している...",
-        "次は勝たせてもらうよ。"
-    ];
+    const total = history.グー + history.チョキ + history.パー;
 
-    document.getElementById("comment").textContent =
-        comments[Math.floor(Math.random() * comments.length)];
+    const learning = Math.min(100, total * 10);
+    document.getElementById("learning").textContent = learning;
+
+    let predicted = "グー";
+    if (history.チョキ > history[predicted]) predicted = "チョキ";
+    if (history.パー > history[predicted]) predicted = "パー";
+
+    document.getElementById("prediction").textContent = predicted;
+}
+
+// 終了
+function endGame() {
+
+    document.getElementById("game-screen").classList.remove("active");
+    document.getElementById("end-screen").classList.add("active");
+
+    let text = "";
+
+    if (wins > losses) text = "あなたの勝ち！🎉";
+    else if (wins < losses) text = "AIの勝ち！🤖";
+    else text = "引き分け！";
+
+    document.getElementById("final-result").textContent = text;
+
+    document.getElementById("summary").textContent =
+        `あなた:${wins}勝 / AI:${losses}勝`;
 }

@@ -3,39 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIじゃんけん</title>
+    <title>AIじゃんけんバトル</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
-        <h1>🤖 AIじゃんけん ✊✌️✋</h1>
+<div class="container">
 
-        <div class="score-board">
-            <p>勝ち: <span id="wins">0</span></p>
-            <p>負け: <span id="losses">0</span></p>
-            <p>引き分け: <span id="draws">0</span></p>
-        </div>
+    <!-- タイトル画面 -->
+    <div id="title-screen" class="screen active">
+        <h1>🤖 AIじゃんけんバトル</h1>
 
-        <div class="game-area">
-            <p>あなた: <span id="player-hand">？</span></p>
-            <p>AI: <span id="ai-hand">？</span></p>
-        </div>
+        <h3>回数選択</h3>
+        <button onclick="setMatch(3)">3回勝負</button>
+        <button onclick="setMatch(5)">5回勝負</button>
+        <button onclick="setMatch(10)">10回勝負</button>
 
-        <h2 id="result">手を選んでください！</h2>
+        <h3>難易度</h3>
+        <button onclick="setDifficulty('easy')">Easy</button>
+        <button onclick="setDifficulty('normal')">Normal</button>
+        <button onclick="setDifficulty('hard')">Hard</button>
+
+        <br><br>
+        <button class="start-btn" onclick="startGame()">▶ スタート</button>
+    </div>
+
+    <!-- ゲーム画面 -->
+    <div id="game-screen" class="screen">
+
+        <h2 id="round-text">1 / 5</h2>
+
+        <p>勝ち: <span id="wins">0</span> / 負け: <span id="losses">0</span></p>
+
+        <p>🤖 AI学習率: <span id="learning">0</span>%</p>
+        <p>🔮 AI予測: <span id="prediction">-</span></p>
+
+        <h2 id="result">手を選んでね</h2>
 
         <div class="buttons">
-            <button onclick="play('グー')">✊ グー</button>
-            <button onclick="play('チョキ')">✌️ チョキ</button>
-            <button onclick="play('パー')">✋ パー</button>
-        </div>
-
-        <div class="ai-comment">
-            <p id="comment">AIがあなたのクセを学習中...</p>
+            <button onclick="play('グー')">✊</button>
+            <button onclick="play('チョキ')">✌️</button>
+            <button onclick="play('パー')">✋</button>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- 結果画面 -->
+    <div id="end-screen" class="screen">
+        <h1 id="final-result"></h1>
+        <p id="summary"></p>
+        <button onclick="location.reload()">もう一度遊ぶ</button>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
