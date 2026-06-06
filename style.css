@@ -40,3 +40,9 @@ button:hover {
     width: 80px;
     height: 80px;
 }
+
+#status {
+    color: yellow;
+    font-weight: bold;
+    margin: 10px 0;
+}

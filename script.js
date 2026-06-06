@@ -17,12 +17,14 @@ const history = {
 // 設定
 function setMatch(num) {
     maxRounds = num;
-    alert(num + "回勝負に設定");
+    document.getElementById("status").textContent =
+        `勝負回数を ${num} 回に設定`;
 }
 
 function setDifficulty(level) {
     difficulty = level;
-    alert("難易度: " + level);
+    document.getElementById("status").textContent =
+        `難易度を ${level} に設定`;
 }
 
 // ゲーム開始
@@ -91,13 +93,14 @@ function play(player) {
 
     currentRound++;
 
+    updateUI();
+
     document.getElementById("result").textContent =
         `あなた:${player} / AI:${ai} → ${result}`;
 
-    updateUI();
-
-    if (currentRound >= maxRounds) {
-        endGame();
+    // ★ここがポイント（最後の1回もちゃんと反映）
+    if (currentRound === maxRounds) {
+        setTimeout(endGame, 300);
     }
 }
 
